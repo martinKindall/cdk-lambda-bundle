@@ -1,9 +1,8 @@
-# Welcome to your CDK TypeScript project
+# Deploying Lambdas with CDK - Bundling dependencies
 
-You should explore the contents of this project. It demonstrates a CDK app with an instance of a stack (`LambdaBundlingStack`)
-which contains an Amazon SQS queue that is subscribed to an Amazon SNS topic.
+Lambdas have dependencies, and sometimes we have to produce artifacts if they have dependencies and we are not using Lambda Layers. We can leverage the power of Docker to use a build runtime if we don't want to install locally in our machine those buildtools.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+In this example we build locally a lambda written in Typescript using the Node Runtime Image from the CDK.
 
 ## Useful commands
 
