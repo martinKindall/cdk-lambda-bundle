@@ -16,12 +16,12 @@ export class LambdaBundlingStack extends Stack {
           command: [
             'bash', '-c', [
               'npm --version',
-              'cp package.json /asset-output/',
-              'cp tsconfig.json /asset-output/',
-              'cp main.ts /asset-output/',
-              'cd /asset-output',
               'npm install',
-              'npm run build'
+              'npm run build',
+              'cp main.js /asset-output/',
+              'cp package.json /asset-output/',
+              'cd /asset-output',
+              'npm install --only=prod'
             ].join(' && ')
           ]
         }
