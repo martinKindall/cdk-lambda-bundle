@@ -1,0 +1,21 @@
+{
+    "name": "bundling-example",
+    "version": "1.0.0",
+    "description": "Example of lambda with dependencies bundled by cdk",
+    "main": "main.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "build": "tsc",
+      "start": "node main.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+      "@types/node": "10.17.5",
+      "typescript": "~3.7.2"
+    },
+    "dependencies": {
+      "axios": "~0.27.2"
+    }
+  }
+  

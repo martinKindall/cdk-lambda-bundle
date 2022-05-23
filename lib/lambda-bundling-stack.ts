@@ -1,19 +1,31 @@
-import { Duration, Stack, StackProps } from 'aws-cdk-lib';
-import * as sns from 'aws-cdk-lib/aws-sns';
-import * as subs from 'aws-cdk-lib/aws-sns-subscriptions';
-import * as sqs from 'aws-cdk-lib/aws-sqs';
+import { Stack, StackProps } from 'aws-cdk-lib';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
 
 export class LambdaBundlingStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const queue = new sqs.Queue(this, 'LambdaBundlingQueue', {
-      visibilityTimeout: Duration.seconds(300)
+    new lambda.Function(this, 'MyLambda', {
+      runtime: lambda.Runtime.NODEJS_16_X,
+      handler: 'main.handler',
+      code: lambda.Code.fromAsset('lambda', {
+        bundling: {
+          image: lambda.Runtime.NODEJS_16_X.bundlingImage,
+          user: 'root',
+          command: [
+            'bash', '-c', [
+              'npm --version',
+              'cp package.json /asset-output/',
+              'cp tsconfig.json /asset-output/',
+              'cp main.ts /asset-output/',
+              'cd /asset-output',
+              'npm install',
+              'npm run build'
+            ].join(' && ')
+          ]
+        }
+      })
     });
-
-    const topic = new sns.Topic(this, 'LambdaBundlingTopic');
-
-    topic.addSubscription(new subs.SqsSubscription(queue));
   }
 }
